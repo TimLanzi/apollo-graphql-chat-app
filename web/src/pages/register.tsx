@@ -57,8 +57,10 @@ export default function RegisterPage() {
         if (data.createUser.error) {
           setMessage(data.createUser.error);
         } else {
-          console.log(data)
-          localStorage.setItem("token", data.createUser.token);
+          localStorage.setItem("token", data.createUser);
+          if (session.user.refetch) {
+            session.user.refetch();
+          }
           // history.push("/new");
         }
       } else if (error) {
