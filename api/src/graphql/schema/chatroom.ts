@@ -19,7 +19,7 @@ export const Mutations = {
 export const Subscriptions = {
   newRoomCreated: {
     subscribe: (parent, args, { user }) => {
-      console.log(`hello ${user.uid}`)
+      // console.log(`hello ${user.uid}`)
       return pubsub.asyncIterator(`NEW_ROOM_${user.uid}`);
     }
   }
