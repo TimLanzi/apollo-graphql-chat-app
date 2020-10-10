@@ -29,6 +29,10 @@ export default {
   Query: {
     ...UserResolvers.Queries,
     ...ChatroomResolvers.Queries,
+    test: (parent, args, { user }) => {
+      // return Chatroom.findOne({users: [user.uid, "5f7f1cf09f1e1d35682a892c"]})
+      return Chatroom.findOne({ users: [user.uid, "5f7f1cf09f1e1d35682a892c"], $where: "this.users.length == 3" })
+    }
   },
 
   Mutation: {

@@ -23,6 +23,26 @@ export async function create(uid: string, memberIDs: string[], msg: string): Pro
     //   ? `${user.username} - ${members[0].username}`
     //   : `${user.username}, ${members.map(i => i.username).join(", ")}`
 
+    const exists = await Chatroom.findOne({ users: [uid, ...memberIDs], $where: `this.users.length == ${memberIDs.length + 1}` });
+    if (exists) {
+      const message = new Message({
+        sender: uid,
+        room: exists._id,
+        content: msg,
+      });
+
+      exists.messages.push(message._id);
+      user.messages.push(message._id);
+
+      await message.save();
+      await user.save();
+      await exists.save();
+
+      pubsub.publish(`ROOM_MESSAGE_${exists._id}`, { newMessageInRoom: message });
+
+      return exists;
+    }
+
 
     const chatroom = new Chatroom({
       creator: uid,

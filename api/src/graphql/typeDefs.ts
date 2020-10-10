@@ -41,6 +41,7 @@ export default gql`
     login(username: String!): String
     chatroom(id: ID!): Chatroom
     sessionChatrooms: [Chatroom]
+    test: Chatroom
   }
 
   type Mutation {

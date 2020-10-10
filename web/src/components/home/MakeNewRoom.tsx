@@ -54,6 +54,12 @@ export default function MakeNewRoom({ setRoom }: Props) {
                 }
               `
             });
+
+            const roomExists = existing.find((item: any) => item.__ref === newRef?.__ref);
+            if (roomExists) {
+              const temp = existing.filter((item: any) => item.__ref !== newRef?.__ref);
+              return [newRef, ...temp];
+            }
             return [...existing, newRef];
           }
         }
