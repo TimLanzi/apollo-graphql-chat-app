@@ -9,15 +9,15 @@ export const CHATROOMS = gql`
         id
         username
       }
-      # lastMessage {
-      #   id
-      #   sender {
-      #     id
-      #     username
-      #   }
-      #   timestamp
-      #   content
-      # }
+      lastMessage {
+        id
+        sender {
+          id
+          username
+        }
+        timestamp
+        content
+      }
     }
   }
 `;

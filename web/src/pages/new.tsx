@@ -9,7 +9,7 @@ export default function NewRoomPage() {
   function setToCreatedRoom(id: string) {
     // setNewRoom(false);
     // setSelectedRoom(id);
-    history.push(`/${id}`);
+    history.push(`/room/${id}`);
   }
 
   return (

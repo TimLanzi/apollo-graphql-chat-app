@@ -1,7 +1,7 @@
 
 
 import React, { useState, useEffect } from "react";
-import { useQuery } from "@apollo/client";
+import { useQuery, useSubscription } from "@apollo/client";
 import { useHistory, useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { SESSION } from "../../graphql/auth";
@@ -9,7 +9,7 @@ import Sidebar from "../home/Sidebar";
 import { CHATROOMS } from "../../graphql/user";
 import MakeNewRoom from "../home/MakeNewRoom";
 import Chatroom from "../home/Chatroom";
-import { NEW_ROOM_CREATED } from "../../graphql/messaging";
+import { NEW_ROOM_CREATED, NEW_MESSAGE_FOR_USER } from "../../graphql/messaging";
 
 const drawerWidth = 240;
 
@@ -44,6 +44,7 @@ export default function MainLayout({ children }: Props) {
 
   const { data: session } = useQuery(SESSION);
   const { loading, error, data, subscribeToMore } = useQuery(CHATROOMS);
+  const { data: subData } = useSubscription(NEW_MESSAGE_FOR_USER);
 
   /* Effect hooks */
   useEffect(() => {
@@ -58,8 +59,12 @@ export default function MainLayout({ children }: Props) {
     }
   }, [data]);
 
+  useEffect(() => {
+    console.log(subData)
+  }, [subData])
+
   function selectRoom(id: string) {
-    history.push(`/${id}`);
+    history.push(`/room/${id}`);
   }
 
   function createRoom() {

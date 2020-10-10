@@ -14,11 +14,7 @@ export default {
     creator: parent => User.findById(parent.creator),
     users: parent => User.find({ _id: { $in: parent.users }}),
     messages: parent => Message.find({ _id: { $in: parent.messages }}),
-    lastMessage: async(parent) => {
-      const message = await Message.find({ _id: { $in: parent.messages }}).sort({ timestamp: -1 }).limit(1)
-      console.log(message)
-      return message
-    },
+    lastMessage: parent => Message.findOne({ _id: { $in: parent.messages }}).sort({ timestamp: -1 }).limit(1),
   },
 
   Message: {
@@ -30,8 +26,7 @@ export default {
     ...UserResolvers.Queries,
     ...ChatroomResolvers.Queries,
     test: (parent, args, { user }) => {
-      // return Chatroom.findOne({users: [user.uid, "5f7f1cf09f1e1d35682a892c"]})
-      return Chatroom.findOne({ users: [user.uid, "5f7f1cf09f1e1d35682a892c"], $where: "this.users.length == 3" })
+      return Chatroom.findOne({ users: [user.uid, "5f7f1cf09f1e1d35682a892c"], $where: "this.users.length == 2" })
     }
   },
 

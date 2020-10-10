@@ -22,15 +22,15 @@ export const CREATE_CHATROOM = gql`
         timestamp
         content
       }
-      # lastMessage {
-      #   id
-      #   sender {
-      #     id
-      #     username
-      #   }
-      #   timestamp
-      #   content
-      # }
+      lastMessage {
+        id
+        sender {
+          id
+          username
+        }
+        timestamp
+        content
+      }
     }
   }
 `;
@@ -96,5 +96,27 @@ export const NEW_ROOM_CREATED = gql`
         username
       }
     }
+  }
+`;
+
+export const NEW_MESSAGE_FOR_USER = gql`
+  subscription {
+    newMessageForUser {
+      id
+      name
+      users {
+        id
+        username
+      }
+      lastMessage {
+        id
+        sender {
+          id
+          username
+        }
+        timestamp
+        content
+      }
+     }
   }
 `;

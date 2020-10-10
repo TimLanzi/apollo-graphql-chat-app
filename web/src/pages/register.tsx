@@ -57,8 +57,9 @@ export default function RegisterPage() {
         if (data.createUser.error) {
           setMessage(data.createUser.error);
         } else {
+          console.log(data)
           localStorage.setItem("token", data.createUser.token);
-          history.push("/");
+          // history.push("/new");
         }
       } else if (error) {
         setMessage(error.message);
@@ -68,7 +69,7 @@ export default function RegisterPage() {
 
   useEffect(() => {
     if (session.user.data) {
-      history.push("/");
+      history.push("/new");
     }
   }, [session]);
   

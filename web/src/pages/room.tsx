@@ -16,11 +16,17 @@ export default function RoomPage() {
   const { data: session } = useQuery(SESSION);
 
   useEffect(() => {
-    if (!params.id && !session.user.loading) {
-      if (session.user.data.chatrooms.length <= 0) {
-        history.push("/new");
-      } else {
-        history.push(`/${session.user.data.chatrooms[0].id}`)
+    if (!params.id) {
+      if (!localStorage.getItem("token")) {
+        history.replace("/login");
+      }
+
+      if (!session.user.loading) {
+        if (!session.user.data || session.user.data?.chatrooms.length <= 0) {
+          history.replace("/new");
+        } else {
+          history.replace(`/room/${session.user.data?.chatrooms[0].id || ""}`)
+        }
       }
     }
   }, [params, session]);

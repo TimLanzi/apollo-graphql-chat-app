@@ -53,5 +53,6 @@ export default gql`
   type Subscription {
     newMessageInRoom(rid: ID!): Message
     newRoomCreated: Chatroom
+    newMessageForUser: Chatroom
   }
 `;

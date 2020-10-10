@@ -30,6 +30,11 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing(3),
   },
+  listSubHeader: {
+    textOverflow: "ellipsis",
+    overflow: "hidden",
+    whiteSpace: "nowrap",
+  }
 }));
 
 interface Props {
@@ -70,8 +75,8 @@ export default function Sidebar({ loading, rooms, makeNewRoom, selectRoom, subsc
         : (!rooms || rooms.length <= 0)
           ? null
 
-          : rooms.map(item => (
-            <ListItem button key={item.id} onClick={() => selectRoom(item.id)} selected={location.pathname === `/${item.id}`}>
+          : [...rooms].sort((a, b) => a.lastMessage.timestamp < b.lastMessage.timestamp ? 1 : -1).map(item => (
+            <ListItem button key={item.id} onClick={() => selectRoom(item.id)} selected={location.pathname === `/room/${item.id}`}>
               <ListItemAvatar>
                 <Avatar>
                   {item.name
@@ -80,7 +85,15 @@ export default function Sidebar({ loading, rooms, makeNewRoom, selectRoom, subsc
                   }
                  </Avatar>
               </ListItemAvatar>
-              <ListItemText primary={item.name || roomName(item.users, session.user.data.username)} />
+              <ListItemText
+                primary={item.name || roomName(item.users, session.user.data.username)}
+                secondary={item.lastMessage.content}
+                secondaryTypographyProps={{style: {
+                  textOverflow: "ellipsis",
+                  overflow: "hidden",
+                  whiteSpace: "nowrap",
+                }}}
+              />
             </ListItem>
           ))
         }

@@ -60,7 +60,7 @@ export default function LoginPage() {
         if (session.user.refetch) {
           session.user.refetch();
         }
-        history.push("/");
+        // history.push("/");
       }
     }
   }, [loading, error, data]);

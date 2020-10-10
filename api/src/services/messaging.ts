@@ -30,7 +30,13 @@ export async function send({ msg, rid }: any, uid: string): Promise<IMessage> {
   user.save();
   room.save();
 
-  pubsub.publish(`ROOM_MESSAGE_${rid}`, { newMessageInRoom: message })
+  pubsub.publish(`ROOM_MESSAGE_${rid}`, { newMessageInRoom: message });
+
+  for (const person of room.users) {
+    // if (person.toString() !== uid) {
+      pubsub.publish(`USER_MESSAGE_${person.toString()}`, { newMessageForUser: room })
+    // }
+  }
 
   return message;
 }

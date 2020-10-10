@@ -9,24 +9,24 @@ const Register = lazy(() => import("./pages/register"));
 
 export default function Routes() {
   return (
-      <Suspense fallback={<CircularProgress style={{ marginTop: "6em" }} />}>
-    <Switch>
-        <Route exact path="/">
-          <Room />
-        </Route>
-        <Route exact path="/new">
-          <NewRoom />
-        </Route>
-        <Route exact path="/:id">
-          <Room />
-        </Route>
+    <Suspense fallback={<CircularProgress style={{ marginTop: "6em" }} />}>
+      <Switch>
         <Route exact path="/login">
           <Login />
         </Route>
         <Route exact path="/register">
           <Register />
         </Route>
-    </Switch>
-      </Suspense>
+        <Route exact path="/new">
+          <NewRoom />
+        </Route>
+        <Route path="/room/:id">
+          <Room />
+        </Route>
+        <Route exact path="/">
+          <Room />
+        </Route>
+      </Switch>
+    </Suspense>
   )
 }

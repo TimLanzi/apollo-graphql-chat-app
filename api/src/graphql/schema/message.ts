@@ -17,5 +17,10 @@ export const Subscriptions = {
       // console.log(`hello ${args.rid}`)
       return pubsub.asyncIterator(`ROOM_MESSAGE_${args.rid}`)
     },
-  }
-}
+  },
+  newMessageForUser: {
+    subscribe: (parent, args, { user }) => {
+      return pubsub.asyncIterator(`USER_MESSAGE_${user.uid}`);
+    },
+  },
+};
