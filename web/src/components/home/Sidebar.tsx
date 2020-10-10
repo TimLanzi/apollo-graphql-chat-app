@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { Drawer, List, ListItem, ListItemText, ListItemAvatar, Avatar, ListItemIcon, CircularProgress } from "@material-ui/core";
 import AddCircleIcon from '@material-ui/icons/AddCircle';
@@ -42,6 +43,8 @@ interface Props {
 export default function Sidebar({ loading, rooms, makeNewRoom, selectRoom, subscribeToNewRooms }: Props) {
   const classes = useStyles();
 
+  let location = useLocation();
+
   const { data: session } = useQuery(SESSION);
 
   useEffect(() => {
@@ -53,7 +56,7 @@ export default function Sidebar({ loading, rooms, makeNewRoom, selectRoom, subsc
       paper: classes.drawerPaper
     }}>
       <List>
-        <ListItem button onClick={makeNewRoom}>
+        <ListItem button onClick={makeNewRoom} selected={location.pathname === "/new"}>
           <ListItemText>
             New Message
           </ListItemText>
@@ -68,7 +71,7 @@ export default function Sidebar({ loading, rooms, makeNewRoom, selectRoom, subsc
           ? null
 
           : rooms.map(item => (
-            <ListItem button key={item.id} onClick={() => selectRoom(item.id)}>
+            <ListItem button key={item.id} onClick={() => selectRoom(item.id)} selected={location.pathname === `/${item.id}`}>
               <ListItemAvatar>
                 <Avatar>
                   {item.name

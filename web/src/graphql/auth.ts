@@ -23,6 +23,9 @@ export const USER = gql`
     session {
       id
       username
+      chatrooms {
+        id
+      }
     }
   }
 `;

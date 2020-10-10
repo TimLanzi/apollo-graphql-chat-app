@@ -1,20 +1,24 @@
 import React, { Suspense, lazy } from "react";
 import { Switch, Route } from "react-router-dom";
 import { CircularProgress } from "@material-ui/core";
-// import LoginPage from "./pages/login";
-// import RegisterPage from "./pages/register";
-// import HomePage from "./pages/home";
 
 const Login = lazy(() => import("./pages/login"));
-const Home = lazy(() => import("./pages/home"));
+const Room = lazy(() => import("./pages/room"));
+const NewRoom = lazy(() => import("./pages/new"));
 const Register = lazy(() => import("./pages/register"));
 
 export default function Routes() {
   return (
-    <Switch>
       <Suspense fallback={<CircularProgress style={{ marginTop: "6em" }} />}>
+    <Switch>
         <Route exact path="/">
-          <Home />
+          <Room />
+        </Route>
+        <Route exact path="/new">
+          <NewRoom />
+        </Route>
+        <Route exact path="/:id">
+          <Room />
         </Route>
         <Route exact path="/login">
           <Login />
@@ -22,7 +26,7 @@ export default function Routes() {
         <Route exact path="/register">
           <Register />
         </Route>
-      </Suspense>
     </Switch>
+      </Suspense>
   )
 }

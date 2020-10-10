@@ -1,5 +1,5 @@
 import { gql, useMutation, useQuery, useSubscription } from "@apollo/client";
-import { makeStyles } from "@material-ui/core";
+import { CircularProgress, makeStyles } from "@material-ui/core";
 import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import { CHATROOM, SEND_MESSAGE, NEW_MESSAGE_IN_ROOM } from "../../graphql/messaging";
 import MessageInput from "./MessageInput";
@@ -13,6 +13,11 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     display: "flex",
     flexDirection: "column"
+  },
+  progress: {
+    position: "fixed",
+    top: "50%",
+    right: "35%",
   }
 }))
 
@@ -80,21 +85,6 @@ export default function Chatroom({ id }: Props) {
     }
   }, [subData])
 
-  // useEffect(() => {
-  //   if (subscribeToMore) {
-  //     const unsubscribe = subscribeToMore({
-  //       document: SUB_TO_ROOM,
-  //       variables: { rid: id },
-  //       updateQuery: (prev, { subscriptionData }) => {
-  //         console.log({ prev, subscriptionData })
-  //         return prev
-  //       }
-  //     });
-
-  //     return unsubscribe();
-  //   }
-  // }, [subscribeToMore]);
-
   function onChange(e: ChangeEvent<HTMLInputElement>): void {
     setMessage(e.target.value);
   }
@@ -111,7 +101,9 @@ export default function Chatroom({ id }: Props) {
 
   return (
     <div className={classes.root}>
-      { data?.chatroom &&
+      { loading
+        ? <CircularProgress className={classes.progress} />
+        : data?.chatroom &&
         <MessageFeed messages={feed} />
       }
       <MessageInput message={message} onChange={onChange} onSubmit={sendMessage} />
