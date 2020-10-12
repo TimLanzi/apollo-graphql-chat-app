@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from "react-router-dom";
 import { ApolloProvider } from "@apollo/client";
-// import './index.css';
 import App from './App';
 import client from "./services/apollo/client";
 import { CssBaseline } from '@material-ui/core';

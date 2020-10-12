@@ -1,13 +1,12 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import { ApolloClient, gql, useMutation } from "@apollo/client";
+import { makeStyles } from "@material-ui/core/styles";
 import { CREATE_CHATROOM, SEARCH_FOR_USERS } from "../../graphql/messaging";
 import MessageInput from "./MessageInput";
 import AddUsers from "./AddUsers";
 import UsersList from "./UsersList";
-import { create } from "domain";
 
-const drawerWidth = 240;
+// const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -77,7 +76,7 @@ export default function MakeNewRoom({ setRoom }: Props) {
         // TODO
         // console.log({ error, message: error.message })
       } else if (data) {
-        console.log(data)
+        // console.log(data)
         setRoom(data.createChatroom.id);
       }
     }

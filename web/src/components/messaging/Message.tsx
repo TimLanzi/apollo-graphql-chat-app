@@ -1,7 +1,7 @@
 import React from "react";
+import { useQuery } from "@apollo/client";
 import { makeStyles } from "@material-ui/core";
 import { SESSION } from "../../graphql/auth";
-import { useQuery } from "@apollo/client";
 
 const useStyles = makeStyles(theme => ({
   message: {

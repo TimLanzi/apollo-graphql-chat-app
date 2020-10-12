@@ -1,5 +1,5 @@
-import { makeStyles } from "@material-ui/core";
 import React, { useRef, useEffect } from "react";
+import { makeStyles } from "@material-ui/core";
 import Message from "./Message";
 
 const useStyles = makeStyles(theme => ({

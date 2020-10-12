@@ -1,6 +1,6 @@
+import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import { gql, useMutation, useQuery, useSubscription } from "@apollo/client";
 import { CircularProgress, makeStyles } from "@material-ui/core";
-import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import { CHATROOM, SEND_MESSAGE, NEW_MESSAGE_IN_ROOM } from "../../graphql/messaging";
 import MessageInput from "./MessageInput";
 import MessageFeed from "./MessageFeed";
@@ -31,13 +31,12 @@ export default function Chatroom({ id }: Props) {
   const { loading, error, data } = useQuery(CHATROOM, { variables: { id }});
   const { data: subData } = useSubscription(NEW_MESSAGE_IN_ROOM, { variables: { rid: id }});
 
-  const [send, { loading: mLoading, error: mErr, data: mData }] = useMutation(SEND_MESSAGE, {
+  const [send, {/* loading: mLoading, error: mErr, data: mData */}] = useMutation(SEND_MESSAGE, {
     update: (cache, { data: { createMessage }}) => {
       cache.modify({
         id: cache.identify(data?.chatroom),
         fields: {
           messages(existing) {
-            // console.log(existing)
             const newRef = cache.writeFragment({
               data: createMessage,
               fragment: gql`

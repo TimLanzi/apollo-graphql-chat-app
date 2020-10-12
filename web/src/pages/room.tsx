@@ -1,8 +1,8 @@
 import { useQuery } from "@apollo/client";
 import React, { useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
-import Chatroom from "../components/home/Chatroom";
-import MainLayout from "../components/home/layout";
+import Chatroom from "../components/messaging/Chatroom";
+import MainLayout from "../components/messaging/layout";
 import { SESSION } from "../graphql/auth";
 
 interface Params {
