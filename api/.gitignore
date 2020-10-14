@@ -2,3 +2,5 @@ config.json
 
 node_modules/
 build/
+
+**/config/index.js
