@@ -7,7 +7,8 @@ import UserGroup from "./UserGroup";
 const useStyles = makeStyles(theme => ({
   dayGroup: {
     display: "flex",
-    flexGrow: 1,
+    // flexGrow: 1,
+    marginTop: "auto",
     padding: "1em",
     flexDirection: "column",
   },
