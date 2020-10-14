@@ -54,6 +54,7 @@ export const CHATROOM = gql`
         timestamp
         content
       }
+      unreadMessages
     }
   }
 `;
@@ -76,12 +77,15 @@ export const NEW_MESSAGE_IN_ROOM = gql`
   subscription($rid: ID!) {
     newMessageInRoom(rid: $rid) {
       id
-      sender {
+      messages {
         id
-        username
+        sender {
+          id
+          username
+        }
+        timestamp
+        content
       }
-      timestamp
-      content
     }
   }
 `;
@@ -95,7 +99,17 @@ export const NEW_ROOM_CREATED = gql`
         id
         username
       }
-    }
+      lastMessage {
+        id
+        sender {
+          id
+          username
+        }
+        timestamp
+        content
+      }
+      unreadMessages
+     }
   }
 `;
 
@@ -117,6 +131,16 @@ export const NEW_MESSAGE_FOR_USER = gql`
         timestamp
         content
       }
-     }
+      unreadMessages
+    }
+  }
+`;
+
+export const MARK_CHATROOM_MESSAGES_READ = gql`
+  mutation($rid: ID!) {
+    markChatroomMessagesRead(rid: $rid) {
+      id
+      unreadMessages
+    }
   }
 `;

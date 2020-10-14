@@ -25,7 +25,9 @@ export default function RoomPage() {
         if (!session.user.data || session.user.data?.chatrooms.length <= 0) {
           history.replace("/new");
         } else {
-          history.replace(`/room/${session.user.data?.chatrooms[0].id || ""}`)
+          const sorted = [...session.user.data?.chatrooms].sort((a, b) => a.lastMessage.timestamp < b.lastMessage.timestamp ? 1 : -1);
+          history.replace(`/room/${sorted[0].id || ""}`)
+          // history.replace(`/room/${session.user.data?.chatrooms[0].id || ""}`)
         }
       }
     }
@@ -33,7 +35,9 @@ export default function RoomPage() {
 
   return (
     <MainLayout>
-      <Chatroom id={params.id} />
+      { params.id &&
+        <Chatroom id={params.id} />
+      }
     </MainLayout>
   )
 }

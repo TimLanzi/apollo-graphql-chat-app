@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import { makeStyles } from "@material-ui/core";
-import Message from "./Message";
+import { groupByDay } from "../../helpers/groupMessages";
+import DayGroup from "./DayGroup";
 
 const useStyles = makeStyles(theme => ({
   messageFeed: {
@@ -17,10 +18,11 @@ const useStyles = makeStyles(theme => ({
 }))
 
 interface Props {
+  chatroom: string;
   messages: any[];
 }
 
-export default function MessageFeed({ messages }: Props) {
+export default function MessageFeed({ chatroom, messages }: Props) {
   const classes = useStyles();
 
   const containerRef = useRef(null);
@@ -35,8 +37,8 @@ export default function MessageFeed({ messages }: Props) {
 
   return (
     <div className={classes.messageFeed} ref={containerRef}>
-      {messages.map(item => (
-        <Message key={item.id} message={item} />
+      {groupByDay(messages).map(item => (
+        <DayGroup key={`${chatroom}:${item.day}`} day={item.day} messages={item.messages} />
       ))}
     </div>
   )

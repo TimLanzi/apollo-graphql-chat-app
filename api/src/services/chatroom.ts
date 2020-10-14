@@ -29,6 +29,7 @@ export async function create(uid: string, memberIDs: string[], msg: string): Pro
         sender: uid,
         room: exists._id,
         content: msg,
+        readBy: [uid],
       });
 
       exists.messages.push(message._id);
@@ -54,6 +55,7 @@ export async function create(uid: string, memberIDs: string[], msg: string): Pro
       sender: uid,
       room: chatroom._id,
       content: msg,
+      readBy: [uid],
     });
 
     chatroom.messages.push(message._id);
@@ -115,4 +117,22 @@ export async function addUser(uid: string, rid: string): Promise<IChatroom> {
   // }
 
   // socket.rooms = user.chatrooms.map(i => i.toString());
+}
+
+export async function markMessages(rid: string, uid: string): Promise<IChatroom> {
+  const messages = await Message.find({ room: rid });
+
+  for (const message of messages) {
+    if (message.readBy.findIndex(item => item.toString() === uid) === -1) {
+      message.readBy.push(uid);
+      await message.save();
+    }
+  }
+
+  const room = await Chatroom.findById(rid);
+  if (!room) {
+    throw new Error("Room not found");
+  }
+
+  return room;
 }

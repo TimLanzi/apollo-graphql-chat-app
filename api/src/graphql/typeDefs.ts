@@ -2,6 +2,8 @@ import { gql } from "apollo-server-express";
 
 
 export default gql`
+  scalar DateTime
+
   type Error {
     error: Boolean
     message: String
@@ -23,12 +25,13 @@ export default gql`
     users: [User]!
     lastMessage: Message
     messages: [Message]
+    unreadMessages: Int
   }
 
   type Message {
     id: ID
     sender: User
-    timestamp: String
+    timestamp: DateTime
     room: Chatroom
     content: String
   }
@@ -48,10 +51,11 @@ export default gql`
     createUser(username: String!): String
     createChatroom(members: [ID]!, message: String!): Chatroom
     createMessage(rid: ID!, msg: String!): Message
+    markChatroomMessagesRead(rid: ID!): Chatroom
   }
 
   type Subscription {
-    newMessageInRoom(rid: ID!): Message
+    newMessageInRoom(rid: ID!): Chatroom
     newRoomCreated: Chatroom
     newMessageForUser: Chatroom
   }

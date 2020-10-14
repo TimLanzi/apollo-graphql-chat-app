@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+    textAlign: "left",
     color: "#fff"
   },
   link: {
@@ -41,7 +42,7 @@ export default function Header() {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h5" className={classes.title}>
-            Chat App
+            Chat App Test
           </Typography>
           { !session.user.data
             ? <Link href="/login" className={classes.link}>Login</Link>

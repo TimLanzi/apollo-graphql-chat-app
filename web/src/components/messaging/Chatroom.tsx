@@ -1,7 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import { gql, useMutation, useQuery, useSubscription } from "@apollo/client";
 import { CircularProgress, makeStyles } from "@material-ui/core";
-import { CHATROOM, SEND_MESSAGE, NEW_MESSAGE_IN_ROOM } from "../../graphql/messaging";
+import { CHATROOM, SEND_MESSAGE, NEW_MESSAGE_IN_ROOM, MARK_CHATROOM_MESSAGES_READ } from "../../graphql/messaging";
 import MessageInput from "./MessageInput";
 import MessageFeed from "./MessageFeed";
 
@@ -58,29 +58,42 @@ export default function Chatroom({ id }: Props) {
       })
     }
   });
+  
+  const [markRead] = useMutation(MARK_CHATROOM_MESSAGES_READ);
 
   const [message, setMessage] = useState("");
-  const [feed, setFeed] = useState<any[]>([])
+  // const [feed, setFeed] = useState<any[]>([])
 
   useEffect(() => {
-    if (!loading) {
-      if (error) {
-        // TODO
-      } else if (data) {
-        setFeed(data.chatroom.messages);
-      }
-    }
-  }, [loading, error, data]);
+    markRead({ variables: { rid: id }});
+  }, [id]);
+
+  // useEffect(() => {
+  //   if (!loading) {
+  //     if (error) {
+  //       // TODO
+  //     } else if (data) {
+  //       // console.log("hello")
+  //       // console.log(data.chatroom)
+  //       setFeed(data.chatroom.messages);
+  //     }
+  //   }
+  // }, [loading, error, data]);
+
+  // useEffect(() => {
+  //   console.log(feed)
+  // }, [feed])
 
   useEffect(() => {
     if (subData) {
-      const exists = feed.find((item: any) => item.id === subData.newMessageInRoom.id);
-      if (!exists) {
-        setFeed(prev => [
-          ...prev,
-          subData.newMessageInRoom,
-        ]);
-      }
+      // const exists = feed.find((item: any) => item.id === subData.newMessageInRoom.id);
+      // if (!exists) {
+      //   setFeed(prev => [
+      //     ...prev,
+      //     subData.newMessageInRoom,
+      //   ]);
+        markRead({ variables: { rid: id }});
+      // }
     }
   }, [subData])
 
@@ -102,8 +115,8 @@ export default function Chatroom({ id }: Props) {
     <div className={classes.root}>
       { loading
         ? <CircularProgress className={classes.progress} />
-        : data?.chatroom &&
-        <MessageFeed messages={feed} />
+      : data?.chatroom &&
+        <MessageFeed chatroom={id} messages={data.chatroom.messages} />
       }
       <MessageInput message={message} onChange={onChange} onSubmit={sendMessage} />
     </div>

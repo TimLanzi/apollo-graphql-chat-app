@@ -18,6 +18,7 @@ export const CHATROOMS = gql`
         timestamp
         content
       }
+      unreadMessages
     }
   }
 `;

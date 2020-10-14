@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
-import { Drawer, List, ListItem, ListItemText, ListItemAvatar, Avatar, ListItemIcon, CircularProgress } from "@material-ui/core";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { Drawer, List, ListItem, ListItemText, ListItemAvatar, Avatar, ListItemIcon, CircularProgress, Badge } from "@material-ui/core";
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import roomName from "../../helpers/roomName";
 import { useQuery } from "@apollo/client";
@@ -36,6 +36,14 @@ const useStyles = makeStyles((theme) => ({
     whiteSpace: "nowrap",
   }
 }));
+
+const StyledBadge = withStyles(theme => ({
+  badge: {
+    right: 15,
+    top: "50%",
+    // width: "100%"
+  }
+}))(Badge)
 
 interface Props {
   loading: boolean;
@@ -76,25 +84,27 @@ export default function Sidebar({ loading, rooms, makeNewRoom, selectRoom, subsc
           ? null
 
           : [...rooms].sort((a, b) => a.lastMessage.timestamp < b.lastMessage.timestamp ? 1 : -1).map(item => (
-            <ListItem button key={item.id} onClick={() => selectRoom(item.id)} selected={location.pathname === `/room/${item.id}`}>
-              <ListItemAvatar>
-                <Avatar>
-                  {item.name
-                    ? item.name[0]
-                    : roomName(item.users, session.user.data.username)[0]
-                  }
-                 </Avatar>
-              </ListItemAvatar>
-              <ListItemText
-                primary={item.name || roomName(item.users, session.user.data.username)}
-                secondary={item.lastMessage.content}
-                secondaryTypographyProps={{style: {
-                  textOverflow: "ellipsis",
-                  overflow: "hidden",
-                  whiteSpace: "nowrap",
-                }}}
-              />
-            </ListItem>
+            <StyledBadge style={{ width: "100%"}} badgeContent={item.unreadMessages} color="primary">
+              <ListItem button key={item.id} onClick={() => selectRoom(item.id)} selected={location.pathname === `/room/${item.id}`}>
+                <ListItemAvatar>
+                  <Avatar>
+                    {item.name
+                      ? item.name[0]
+                      : roomName(item.users, session.user.data.username)[0]
+                    }
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText
+                  primary={item.name || roomName(item.users, session.user.data.username)}
+                  secondary={item.lastMessage.content}
+                  secondaryTypographyProps={{style: {
+                    textOverflow: "ellipsis",
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                  }}}
+                />
+              </ListItem>
+            </StyledBadge>
           ))
         }
       </List>

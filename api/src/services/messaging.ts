@@ -22,15 +22,16 @@ export async function send({ msg, rid }: any, uid: string): Promise<IMessage> {
     sender: uid,
     room: rid,
     content: msg,
+    readBy: [uid],
   }).save();
 
   user.messages.push(message._id);
   room.messages.push(message._id);
 
   user.save();
-  room.save();
+  await room.save();
 
-  pubsub.publish(`ROOM_MESSAGE_${rid}`, { newMessageInRoom: message });
+  pubsub.publish(`ROOM_MESSAGE_${rid}`, { newMessageInRoom: room });
 
   for (const person of room.users) {
     // if (person.toString() !== uid) {

@@ -25,6 +25,10 @@ export const USER = gql`
       username
       chatrooms {
         id
+        lastMessage {
+          id
+          timestamp
+        }
       }
     }
   }
