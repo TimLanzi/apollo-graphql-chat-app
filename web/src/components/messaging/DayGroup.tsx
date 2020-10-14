@@ -8,7 +8,7 @@ const useStyles = makeStyles(theme => ({
   dayGroup: {
     display: "flex",
     // flexGrow: 1,
-    marginTop: "auto",
+    // marginTop: "auto",
     padding: "1em",
     flexDirection: "column",
   },
