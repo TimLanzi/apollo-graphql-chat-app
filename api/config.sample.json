@@ -1,0 +1,5 @@
+{
+  "port": 1234,
+  "secret": "secret",
+  "mongodb": "mongodb connection string"
+}

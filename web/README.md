@@ -1,3 +1,6 @@
+# App frontend
+Requires a `.env` file to run. Use `.env.sample` as a reference.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
