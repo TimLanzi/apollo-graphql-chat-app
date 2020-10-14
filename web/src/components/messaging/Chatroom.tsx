@@ -1,25 +1,10 @@
 import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import { gql, useMutation, useQuery, useSubscription } from "@apollo/client";
-import { CircularProgress, makeStyles } from "@material-ui/core";
+import { CircularProgress } from "@material-ui/core";
 import { CHATROOM, SEND_MESSAGE, NEW_MESSAGE_IN_ROOM, MARK_CHATROOM_MESSAGES_READ } from "../../graphql/messaging";
 import MessageInput from "./MessageInput";
 import MessageFeed from "./MessageFeed";
-
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    // width: "100%",
-    minHeight: 0,
-    flexGrow: 1,
-    display: "flex",
-    flexDirection: "column"
-  },
-  progress: {
-    position: "fixed",
-    top: "50%",
-    right: "35%",
-  }
-}))
+import useStyles from "../../styles/chatroom";
 
 interface Props {
   id: string;

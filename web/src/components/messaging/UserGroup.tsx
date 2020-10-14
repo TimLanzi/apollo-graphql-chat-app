@@ -1,38 +1,10 @@
 import React from "react";
-import { Avatar, makeStyles } from "@material-ui/core";
+import { Avatar } from "@material-ui/core";
 import { useQuery } from "@apollo/client";
 import { SESSION } from "../../graphql/auth";
 import { groupByMinute } from "../../helpers/groupMessages";
 import MinuteGroup from "./MinuteGroup";
-
-const useStyles = makeStyles(theme => ({
-  userGroup: {
-    display: "flex",
-    padding: "1em 0",
-    flexDirection: "column",
-  },
-  wrap: {
-    display: "flex",
-  },
-  them: {
-    // display: "flex",
-    flexDirection: "row"
-  },
-  me: {
-    // display: "flex",
-    flexDirection: "row-reverse",
-  },
-  messageAvatar: {
-    marginTop: "0.8em"
-  },
-  avatarWrap: {
-    maxWidth: 40,
-    flex: 1,
-  },
-  groupWrap: {
-    flex: 1,
-  },
-}));
+import useStyles from "../../styles/chatroom/userGroup";
 
 interface Props {
   messages: any[];

@@ -1,20 +1,6 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import { Avatar, Chip } from "@material-ui/core";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    flexDirection: "row",
-
-    width: "100%",
-    backgroundColor: "#fff",
-    padding: "1em",
-  },
-  chip: {
-    paddingRight: "1em",
-  },
-}))
+import useStyles from "../../styles/newRoom/usersList";
 
 interface Props {
   users: {id: string, username: string}[];

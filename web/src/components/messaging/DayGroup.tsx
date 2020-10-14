@@ -1,21 +1,9 @@
 import React from "react";
 import { format } from "date-fns";
-import { Divider, List, makeStyles, Typography } from "@material-ui/core";
+import { Divider, List, Typography } from "@material-ui/core";
 import { groupByUser } from "../../helpers/groupMessages";
 import UserGroup from "./UserGroup";
-
-const useStyles = makeStyles(theme => ({
-  dayGroup: {
-    display: "flex",
-    // flexGrow: 1,
-    // marginTop: "auto",
-    padding: "1em",
-    flexDirection: "column",
-  },
-  dividerText: {
-    marginTop: "0.5em"
-  }
-}));
+import useStyles from "../../styles/chatroom/dayGroup";
 
 interface Props {
   messages: any[];

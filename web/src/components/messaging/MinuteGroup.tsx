@@ -1,17 +1,6 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core";
 import Message from "./Message";
-
-const useStyles = makeStyles(theme => ({
-  minuteGroup: {
-    display: "flex",
-    flexDirection: "column",
-    padding: "0.5em 0"
-  },
-  minute: {
-    color: "#888"
-  }
-}));
+import useStyles from "../../styles/chatroom/minuteGroup";
 
 interface Props {
   minute: string;

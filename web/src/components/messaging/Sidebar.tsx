@@ -1,47 +1,17 @@
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 import { Drawer, List, ListItem, ListItemText, ListItemAvatar, Avatar, ListItemIcon, CircularProgress, Badge } from "@material-ui/core";
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import roomName from "../../helpers/roomName";
 import { useQuery } from "@apollo/client";
 import { SESSION } from "../../graphql/auth";
-
-const drawerWidth = 240;
-
-const useStyles = makeStyles((theme) => ({
-  appBar: {
-    width: `calc(100% - ${drawerWidth}px)`,
-    // width: "20vw",
-    marginLeft: drawerWidth,
-  },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-  },
-  drawerPaper: {
-    width: drawerWidth,
-    top: "auto",
-  },
-  // necessary for content to be below app bar
-  toolbar: theme.mixins.toolbar,
-  content: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.default,
-    padding: theme.spacing(3),
-  },
-  listSubHeader: {
-    textOverflow: "ellipsis",
-    overflow: "hidden",
-    whiteSpace: "nowrap",
-  }
-}));
+import useStyles from "../../styles/sidebar";
 
 const StyledBadge = withStyles(theme => ({
   badge: {
     right: 15,
     top: "50%",
-    // width: "100%"
   }
 }))(Badge)
 

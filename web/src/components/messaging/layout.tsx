@@ -1,35 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { useQuery, useSubscription } from "@apollo/client";
-import { makeStyles } from "@material-ui/core/styles";
 import { SESSION } from "../../graphql/auth";
 import Sidebar from "./Sidebar";
 import { CHATROOMS } from "../../graphql/user";
-// import MakeNewRoom from "./MakeNewRoom";
-// import Chatroom from "./Chatroom";
 import { NEW_ROOM_CREATED, NEW_MESSAGE_FOR_USER } from "../../graphql/messaging";
-
-const drawerWidth = 240;
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-    position: "absolute",
-    top: 64,
-    bottom: 0,
-    left: 0,
-    right: 0,
-  },
-  content: {
-    display: "flex",
-    flexDirection: "column",
-    position: "absolute",
-    top: 0,
-    bottom: 60,
-    left: drawerWidth,
-    right: 0,
-  }
-}));
+import useStyles from "../../styles/chatroom/layout";
 
 interface Props {
   children: React.ReactNode;
@@ -56,10 +32,6 @@ export default function MainLayout({ children }: Props) {
       history.replace("/new");
     }
   }, [data]);
-
-  // useEffect(() => {
-  //   console.log(subData)
-  // }, [subData])
 
   function selectRoom(id: string) {
     history.push(`/room/${id}`);

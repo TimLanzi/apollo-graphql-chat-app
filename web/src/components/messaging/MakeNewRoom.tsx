@@ -1,21 +1,10 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { ApolloClient, gql, useMutation } from "@apollo/client";
-import { makeStyles } from "@material-ui/core/styles";
 import { CREATE_CHATROOM, SEARCH_FOR_USERS } from "../../graphql/messaging";
 import MessageInput from "./MessageInput";
 import AddUsers from "./AddUsers";
 import UsersList from "./UsersList";
-
-// const drawerWidth = 240;
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    // display: "flex",
-    // position: "relative",
-    // width: `calc(100% - ${drawerWidth}px)`,
-    width: "100%"
-  }
-}))
+import useStyles from "../../styles/newRoom";
 
 interface Props {
   setRoom: (arg: string) => void;
@@ -120,7 +109,6 @@ export default function MakeNewRoom({ setRoom }: Props) {
 
   function onSubmit(e: FormEvent): void {
     e.preventDefault();
-    // console.log("hello")
 
     makeRoom({ variables: {
       message,

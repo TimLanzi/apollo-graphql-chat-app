@@ -3,7 +3,7 @@ import { Chatroom, User, Message } from "../../models";
 import * as UserResolvers from "./user"
 import * as ChatroomResolvers from "./chatroom";
 import * as MessageResolvers from "./message";
-import { IResolverObject } from "apollo-server-express";
+// import { IResolverObject } from "apollo-server-express";
 
 export default {
   DateTime: GraphQLDateTime as any,
