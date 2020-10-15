@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core";
 export default makeStyles(theme => ({
   userGroup: {
     display: "flex",
-    padding: "1em 0",
+    padding: "0.4em 0",
     flexDirection: "column",
   },
   wrap: {
@@ -18,13 +18,14 @@ export default makeStyles(theme => ({
     flexDirection: "row-reverse",
   },
   messageAvatar: {
-    marginTop: "0.8em"
+    marginTop: "0.4em"
   },
   avatarWrap: {
     maxWidth: 40,
     flex: 1,
   },
   groupWrap: {
-    flex: 1,
+    display: "flex",
+    flexDirection: "column",
   },
 }));

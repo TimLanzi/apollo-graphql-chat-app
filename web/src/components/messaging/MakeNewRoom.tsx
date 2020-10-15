@@ -69,7 +69,7 @@ export default function MakeNewRoom({ setRoom }: Props) {
         setRoom(data.createChatroom.id);
       }
     }
-  }, [loading, error, data]);
+  }, [loading, error, data, setRoom]);
 
   function addUserToRoom(username: string) {
     const user = options.find(item => item.username === username);

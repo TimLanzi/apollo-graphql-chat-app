@@ -54,7 +54,7 @@ export default function Sidebar({ loading, rooms, makeNewRoom, selectRoom, subsc
           ? null
 
           : [...rooms].sort((a, b) => a.lastMessage.timestamp < b.lastMessage.timestamp ? 1 : -1).map(item => (
-            <StyledBadge style={{ width: "100%"}} badgeContent={item.unreadMessages} color="primary">
+            <StyledBadge key={`sidebar-${item.id}`} style={{ width: "100%"}} badgeContent={item.unreadMessages} color="primary">
               <ListItem button key={item.id} onClick={() => selectRoom(item.id)} selected={location.pathname === `/room/${item.id}`}>
                 <ListItemAvatar>
                   <Avatar>

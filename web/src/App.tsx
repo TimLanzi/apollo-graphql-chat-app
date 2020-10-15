@@ -23,7 +23,7 @@ function App() {
         // TODO
       }
     }
-  }, [loading, error, data]);
+  }, [loading, error, data, refetch]);
 
   return (
     <div className="App">

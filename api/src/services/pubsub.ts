@@ -1,14 +1,14 @@
 import Redis from "ioredis";
 import { PubSub } from "apollo-server-express";
 import { RedisPubSub } from "graphql-redis-subscriptions";
-import config from "../config";
+import { redis } from "../config.json";
 
 export type PubSubType = PubSub | RedisPubSub;
 
 export class PubSubService {
   private pubsub: PubSubType;
   private readonly options = {
-    ...config.redis,
+    ...redis,
     retryStrategy: (times: number) => Math.min(times * 50, 2000),
   };
 

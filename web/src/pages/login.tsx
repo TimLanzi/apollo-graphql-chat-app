@@ -29,13 +29,13 @@ export default function LoginPage() {
         }
       }
     }
-  }, [loading, error, data]);
+  }, [loading, error, data, session.user]);
 
   useEffect(() => {
     if (session.user.data) {
       history.push("/");
     }
-  }, [session]);
+  }, [session, history]);
   
   function handleSubmit(e: FormEvent) {
     e.preventDefault();

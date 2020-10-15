@@ -19,7 +19,6 @@ export function groupByUser(arr: any[]) {
 
 export function groupByMinute(arr: any[]) {
   const grouped = groupBy(arr, item => startOfMinute(new Date(item.timestamp)));
-  console.log(grouped)
   return map(grouped, (group, minute) => ({
     minute,
     messages: group

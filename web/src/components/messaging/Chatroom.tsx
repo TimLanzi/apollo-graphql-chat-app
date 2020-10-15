@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
-import { gql, useMutation, useQuery, useSubscription } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { CircularProgress } from "@material-ui/core";
 import { CHATROOM, SEND_MESSAGE, NEW_MESSAGE_IN_ROOM, MARK_CHATROOM_MESSAGES_READ } from "../../graphql/messaging";
 import MessageInput from "./MessageInput";
@@ -13,10 +13,10 @@ interface Props {
 export default function Chatroom({ id }: Props) {
   const classes = useStyles();
 
-  const { loading, error, data } = useQuery(CHATROOM, { variables: { id }});
-  const { data: subData } = useSubscription(NEW_MESSAGE_IN_ROOM, { variables: { rid: id }});
+  const { loading, data, subscribeToMore } = useQuery(CHATROOM, { variables: { id }});
+  // const { data: subData } = useSubscription(NEW_MESSAGE_IN_ROOM, { variables: { rid: id }});
 
-  const [send, {/* loading: mLoading, error: mErr, data: mData */}] = useMutation(SEND_MESSAGE, {
+  const [send] = useMutation(SEND_MESSAGE, {
     update: (cache, { data: { createMessage }}) => {
       cache.modify({
         id: cache.identify(data?.chatroom),
@@ -47,40 +47,30 @@ export default function Chatroom({ id }: Props) {
   const [markRead] = useMutation(MARK_CHATROOM_MESSAGES_READ);
 
   const [message, setMessage] = useState("");
-  // const [feed, setFeed] = useState<any[]>([])
 
   useEffect(() => {
     markRead({ variables: { rid: id }});
-  }, [id]);
-
-  // useEffect(() => {
-  //   if (!loading) {
-  //     if (error) {
-  //       // TODO
-  //     } else if (data) {
-  //       // console.log("hello")
-  //       // console.log(data.chatroom)
-  //       setFeed(data.chatroom.messages);
-  //     }
-  //   }
-  // }, [loading, error, data]);
-
-  // useEffect(() => {
-  //   console.log(feed)
-  // }, [feed])
+  }, [id, markRead]);
 
   useEffect(() => {
-    if (subData) {
-      // const exists = feed.find((item: any) => item.id === subData.newMessageInRoom.id);
-      // if (!exists) {
-      //   setFeed(prev => [
-      //     ...prev,
-      //     subData.newMessageInRoom,
-      //   ]);
-        markRead({ variables: { rid: id }});
-      // }
+    if (data) {
+      markRead({ variables: { rid: id }});
     }
-  }, [subData])
+  }, [data, id, markRead]);
+
+  // useEffect(() => {
+  //   if (subData) {
+  //     markRead({ variables: { rid: id }});
+  //   }
+  // }, [subData, id, markRead]);
+
+  useEffect(() => {
+    return subscribeToMore({
+      document: NEW_MESSAGE_IN_ROOM,
+      variables: { rid: id },
+      // updateQuery: (prev, { subscriptionData }) => {}
+    })
+  })
 
   function onChange(e: ChangeEvent<HTMLInputElement>): void {
     setMessage(e.target.value);

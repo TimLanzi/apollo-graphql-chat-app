@@ -20,26 +20,22 @@ export default function RegisterPage() {
 
   useEffect(() => {
     if (!loading) {
-      if (!error && data) {
-        if (data.createUser.error) {
-          setMessage(data.createUser.error);
-        } else {
-          localStorage.setItem("token", data.createUser);
-          if (session.user.refetch) {
-            session.user.refetch();
-          }
-        }
-      } else if (error) {
+      if (error) {
         setMessage(error.message);
+      } else if (data) {
+        localStorage.setItem("token", data.createUser);
+        if (session.user.refetch) {
+          session.user.refetch();
+        }
       }
     }
-  }, [loading, error, data]);
+  }, [loading, error, data, session.user]);
 
   useEffect(() => {
     if (session.user.data) {
       history.push("/new");
     }
-  }, [session]);
+  }, [session, history]);
   
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();

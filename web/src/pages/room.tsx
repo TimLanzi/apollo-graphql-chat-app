@@ -31,7 +31,7 @@ export default function RoomPage() {
         }
       }
     }
-  }, [params, session]);
+  }, [params, session, history]);
 
   return (
     <MainLayout>

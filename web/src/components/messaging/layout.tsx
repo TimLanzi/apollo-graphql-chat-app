@@ -17,21 +17,23 @@ export default function MainLayout({ children }: Props) {
   let history = useHistory();
 
   const { data: session } = useQuery(SESSION);
-  const { loading, error, data, subscribeToMore } = useQuery(CHATROOMS);
-  const { data: subData } = useSubscription(NEW_MESSAGE_FOR_USER);
+  const { loading, data, subscribeToMore } = useQuery(CHATROOMS);
+
+  // Subscription hook will automatically update Apollo cache in this case
+  useSubscription(NEW_MESSAGE_FOR_USER);
 
   /* Effect hooks */
   useEffect(() => {
     if (!session.user.loading && !session.user.data) {
       history.replace("/login");
     }
-  }, [session]);
+  }, [session, history]);
 
   useEffect(() => {
     if (data?.chatrooms?.length <= 0) {
       history.replace("/new");
     }
-  }, [data]);
+  }, [data, history]);
 
   function selectRoom(id: string) {
     history.push(`/room/${id}`);
