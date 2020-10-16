@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { useQuery } from "@apollo/client";
 import { format } from "date-fns";
 import { SESSION } from "../../graphql/auth";
@@ -9,7 +9,7 @@ interface Props {
   minute?: string;
 }
 
-export default function Message({ message, minute }: Props) {
+function Message({ message, minute }: Props) {
   const classes = useStyles();
 
   const { data: session } = useQuery(SESSION);
@@ -33,3 +33,5 @@ export default function Message({ message, minute }: Props) {
     </div>
   );
 }
+
+export default memo(Message);

@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
-// import { mongodb } from "../config";
-import { mongodb } from "../config.json";
+import config from "../config";
 
 export default async() => {
   mongoose.Promise = require("bluebird");
@@ -8,7 +7,7 @@ export default async() => {
   mongoose.set("debug", true);
 
   try {
-    mongoose.connect(mongodb, { 
+    mongoose.connect(config.mongodb, { 
       useNewUrlParser: true,
       useCreateIndex: true,
       useUnifiedTopology: true,

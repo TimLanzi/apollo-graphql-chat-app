@@ -1,10 +1,12 @@
-import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
+import React, { useState, ChangeEvent, FormEvent, useEffect, memo } from "react";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { CircularProgress } from "@material-ui/core";
 import { CHATROOM, SEND_MESSAGE, NEW_MESSAGE_IN_ROOM, MARK_CHATROOM_MESSAGES_READ } from "../../graphql/messaging";
 import MessageInput from "./MessageInput";
-import MessageFeed from "./MessageFeed";
+import Feed from "./MessageFeed";
 import useStyles from "../../styles/chatroom";
+
+const MessageFeed = memo(Feed)
 
 interface Props {
   id: string;
@@ -14,7 +16,6 @@ export default function Chatroom({ id }: Props) {
   const classes = useStyles();
 
   const { loading, data, subscribeToMore } = useQuery(CHATROOM, { variables: { id }});
-  // const { data: subData } = useSubscription(NEW_MESSAGE_IN_ROOM, { variables: { rid: id }});
 
   const [send] = useMutation(SEND_MESSAGE, {
     update: (cache, { data: { createMessage }}) => {
@@ -58,22 +59,15 @@ export default function Chatroom({ id }: Props) {
     }
   }, [data, id, markRead]);
 
-  // useEffect(() => {
-  //   if (subData) {
-  //     markRead({ variables: { rid: id }});
-  //   }
-  // }, [subData, id, markRead]);
-
   useEffect(() => {
     return subscribeToMore({
       document: NEW_MESSAGE_IN_ROOM,
       variables: { rid: id },
-      // updateQuery: (prev, { subscriptionData }) => {}
     })
   })
 
-  function onChange(e: ChangeEvent<HTMLInputElement>): void {
-    setMessage(e.target.value);
+  function onChange({ target: { value }}: ChangeEvent<HTMLInputElement>): void {
+    setMessage(value);
   }
 
   function sendMessage(e: FormEvent): void {

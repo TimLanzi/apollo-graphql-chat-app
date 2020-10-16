@@ -1,7 +1,6 @@
 import jwt from "jsonwebtoken";
 import User, { IUser } from "../models/user";
-import { secret } from "../config.json";
-// import { secret } from "../config";
+import config from "../config";
 
 export async function login(username: string): Promise<string> {
   try {
@@ -13,7 +12,7 @@ export async function login(username: string): Promise<string> {
 
     const token = jwt.sign({
       uid: user._id,
-    }, secret, { expiresIn: "7 days" });
+    }, config.secret, { expiresIn: "7 days" });
 
     return token;
     // return { token };
@@ -35,7 +34,7 @@ export async function register(username: string): Promise<string> {
 
     const token = jwt.sign({
       uid: user._id,
-    }, secret, { expiresIn: "7 days" });
+    }, config.secret, { expiresIn: "7 days" });
 
     return token;
     // return { token };
