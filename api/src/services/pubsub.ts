@@ -13,12 +13,13 @@ export class PubSubService {
   };
 
   constructor() {
-    this.pubsub = process.env.NODE_ENV === "production"
-      ? new RedisPubSub({
-          publisher: new Redis(this.options),
-          subscriber: new Redis(this.options),
-        })
-      : new PubSub();
+    // this.pubsub = process.env.NODE_ENV === "production"
+    //   ? new RedisPubSub({
+    //       publisher: new Redis(this.options),
+    //       subscriber: new Redis(this.options),
+    //     })
+    //   : new PubSub();
+    this.pubsub = new PubSub();
   }
 
   public asyncIterator(iter: string | string[]) {
