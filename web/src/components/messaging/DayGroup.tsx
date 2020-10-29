@@ -1,10 +1,11 @@
 import React from "react";
+import { useQuery } from "@apollo/client"
 import { format } from "date-fns";
-import { Divider, List, Typography } from "@material-ui/core";
-import { groupByMinute } from "../../helpers/groupMessages";
-// import UserGroup from "./UserGroup";
+import { Divider, List, Typography, Avatar } from "@material-ui/core";
+import Message from "./Message";
+import { groupAndSort } from "../../helpers/groupMessages";
+import { SESSION } from "../../graphql/auth";
 import useStyles from "../../styles/chatroom/dayGroup";
-import MinuteGroup from "./MinuteGroup";
 
 interface Props {
   messages: any[];
@@ -13,6 +14,8 @@ interface Props {
 
 export default function DayGroup({ day, messages }: Props) {
   const classes = useStyles();
+
+  const { data: session } = useQuery(SESSION);
 
   return (
     <div className={classes.dayGroup}>
@@ -29,12 +32,31 @@ export default function DayGroup({ day, messages }: Props) {
           </Typography>
         </li>
       </List>
-      { groupByMinute(messages).map((item, i) => (
-        <MinuteGroup key={`minutegroup-${item.messages[0].sender.id}:${i}}`} minute={item.minute} messages={item.messages} />
+      { groupAndSort(messages).map((item, i) => (
+        <div
+          key={`group-${item.sender}-${item.minute}-${i}`}
+          className={classes.userGroup}
+        >
+          <div
+            className={`${classes.wrap} ${item.sender === session.user.data.id ? classes.me : classes.them}`}
+          >
+            <div className={classes.avatarWrap}>
+              <Avatar className={classes.messageAvatar}>
+                { (item.messages.length > 0) && item.messages[0].sender.username[0] }
+              </Avatar>
+            </div>
+            <div className={classes.groupWrap}>
+              { item.messages.map((msg, i) => (
+                <Message
+                  key={`${msg.id}:${item.minute}`}
+                  message={msg}
+                  minute={(i === item.messages.length - 1) ? item.minute : undefined}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
       ))}
-      {/* { groupByUser(messages).map((item, i) => (
-        <UserGroup key={`${item.messages[0].sender.id}:${i}`} user={item.sender} messages={item.messages} />
-      ))} */}
     </div>
   )
 }

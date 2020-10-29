@@ -3,6 +3,7 @@ import Routes from "./Routes";
 import Header from "./components/layout/Header";
 import { useQuery } from '@apollo/client';
 import { USER } from './graphql/auth';
+import { checkIfTokenExpired } from "./services/auth";
 import { userVar } from './services/apollo/cache';
 import "./styles/styles.scss";
 
@@ -24,6 +25,10 @@ function App() {
       }
     }
   }, [loading, error, data, refetch]);
+
+  useEffect(() => {
+    checkIfTokenExpired();
+  });
 
   return (
     <div className="App">

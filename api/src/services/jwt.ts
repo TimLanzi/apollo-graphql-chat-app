@@ -9,10 +9,15 @@ export interface IUserJWT {
 }
 
 export function verify(token: string): object|string {
-  if (token?.startsWith("Bearer ")) {
-    token = token.slice(7, token.length);
+  try {
+    if (token?.startsWith("Bearer ")) {
+      token = token.slice(7, token.length);
+    }
+    return jwt.verify(token, config.secret);
+  } catch (e) {
+    console.error(e)
+    throw e;
   }
-  return jwt.verify(token, config.secret);
 }
 
 export default { verify };
