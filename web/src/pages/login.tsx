@@ -4,7 +4,8 @@ import { useLazyQuery, useQuery } from "@apollo/client";
 import { Avatar, Button, TextField, Link, Grid, Typography, Container } from "@material-ui/core";
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { Alert } from "@material-ui/lab";
-import { LOGIN, SESSION } from "../graphql/auth";
+import { LOGIN, SESSION, USER } from "../graphql/auth";
+import { userVar } from '../services/apollo/cache';
 import useStyles from "../styles/login";
 
 export default function LoginPage() {
@@ -12,8 +13,9 @@ export default function LoginPage() {
 
   let history = useHistory();
 
-  const [login, { loading, error, data }] = useLazyQuery(LOGIN);
   const { data: session } = useQuery(SESSION);
+  const [login, { loading, error, data }] = useLazyQuery(LOGIN);
+  const [getUser, { loading: uLoading, error: uError, data: uData }] = useLazyQuery(USER);
 
   const [message, setMessage] = useState("");
   const [username, setUsername] = useState("");
@@ -24,12 +26,23 @@ export default function LoginPage() {
         setMessage(error.message);
       } else if (data) {
         localStorage.setItem("token", data.login);
-        if (session.user.refetch) {
-          session.user.refetch();
-        }
+        getUser();
       }
     }
-  }, [loading, error, data, session.user]);
+  }, [loading, error, data, getUser]);
+
+  useEffect(() => {
+    if (!uLoading) {
+      if (uError) {
+        setMessage(uError.message);
+      } else if (uData) {
+        userVar({
+          loading: false,
+          data: uData.session ?? null,
+        });
+      }
+    }
+  }, [uLoading, uError, uData]);
 
   useEffect(() => {
     if (session.user.data) {

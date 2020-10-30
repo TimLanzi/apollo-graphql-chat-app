@@ -16,7 +16,6 @@ function App() {
     if (!loading) {
       userVar({
         loading: false,
-        refetch,
         data: data?.session ?? null,
       });
       

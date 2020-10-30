@@ -1,4 +1,4 @@
-import { History } from "history";
+import history from "./history";
 import jwtDecode from "jwt-decode";
 import { userVar } from "./apollo/cache";
 import client from "./apollo/client";
@@ -9,7 +9,7 @@ interface IDecodedJWT {
   exp: number;
 }
 
-export function logout(history: History): void {
+export function logout(): void {
   const user = userVar();
 
   localStorage.removeItem("token");

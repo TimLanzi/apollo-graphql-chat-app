@@ -1,5 +1,4 @@
 import { ApolloServer } from "apollo-server-express";
-// import schema from "../graphql/schema";
 import typeDefs from "../graphql/typeDefs";
 import resolvers from "../graphql/schema";
 import { ExpressContext } from "apollo-server-express/dist/ApolloServer";
@@ -16,7 +15,6 @@ interface AuthContext extends ExpressContext {
 }
 
 const apolloServer = new ApolloServer({
-  // schema,
   typeDefs,
   resolvers,
   context: ({ req, payload }: AuthContext) => {

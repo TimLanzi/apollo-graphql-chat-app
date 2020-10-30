@@ -1,5 +1,4 @@
 import { User, Chatroom, Message } from "../models";
-// import { Socket } from "socket.io";
 import { IChatroom } from "../models/chatroom";
 import pubsub from "../services/pubsub";
 
@@ -7,16 +6,12 @@ export async function create(uid: string, memberIDs: string[], msg: string): Pro
   try {
     const user = await User.findById(uid);
     if (!user) {
-      // error
       throw new Error("User not found.");
-      // return;
     }
 
     const members = await User.find({ _id: { $in: memberIDs }});
     if (members.length <= 0) {
-      // error
       throw new Error("No users could be found");
-      // return;
     }
 
     // const name = members.length === 1
@@ -86,8 +81,6 @@ export async function create(uid: string, memberIDs: string[], msg: string): Pro
 export async function addUser(uid: string, rid: string): Promise<IChatroom> {
   const user = await User.findById(uid)
   if (!user) {
-    // error
-    // return
     throw new Error("User not found.");
   }
 
@@ -103,20 +96,6 @@ export async function addUser(uid: string, rid: string): Promise<IChatroom> {
   await room.save();
 
   return room;
-
-  // socket.uid = uid.toString();
-
-  // for (let room of user.chatrooms) {
-    // if (rooms[room.toString()] === undefined) {
-    //   rooms[room.toString()] = [user._id.toString()]
-    // } else {
-    //   rooms[room.toString()].push(user._id.toString());
-    // }
-
-    // socket.join(room.toString());
-  // }
-
-  // socket.rooms = user.chatrooms.map(i => i.toString());
 }
 
 export async function markMessages(rid: string, uid: string): Promise<IChatroom> {

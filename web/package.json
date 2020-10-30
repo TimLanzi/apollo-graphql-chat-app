@@ -23,7 +23,6 @@
     "react-scripts": "^3.4.3",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.88.2",
-    "socket.io-client": "^2.3.0",
     "subscriptions-transport-ws": "^0.9.18"
   },
   "scripts": {

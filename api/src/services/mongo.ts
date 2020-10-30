@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import config from "../config";
 
-export default async() => {
+export default async function connectToDB(): Promise<void> {
   mongoose.Promise = require("bluebird");
   mongoose.connection.once("open", () => console.log("> Connected to database."));
   mongoose.set("debug", true);

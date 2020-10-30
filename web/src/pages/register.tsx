@@ -1,10 +1,11 @@
 import React, { useState, useEffect, FormEvent } from "react";
 import { useHistory } from "react-router-dom";
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation, useQuery, useLazyQuery } from "@apollo/client";
 import { Avatar, Button, TextField, Link, Grid, Typography, Container } from "@material-ui/core";
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { Alert } from "@material-ui/lab";
-import { REGISTER, SESSION } from "../graphql/auth";
+import { REGISTER, SESSION, USER } from "../graphql/auth";
+import { userVar } from '../services/apollo/cache';
 import useStyles from "../styles/register";
 
 export default function RegisterPage() {
@@ -12,8 +13,9 @@ export default function RegisterPage() {
 
   let history = useHistory();
 
-  const [register, { loading, error, data }] = useMutation(REGISTER);
   const { data: session } = useQuery(SESSION);
+  const [register, { loading, error, data }] = useMutation(REGISTER);
+  const [getUser, { loading: uLoading, error: uError, data: uData }] = useLazyQuery(USER);
 
   const [message, setMessage] = useState("");
   const [username, setUsername] = useState("");
@@ -24,12 +26,23 @@ export default function RegisterPage() {
         setMessage(error.message);
       } else if (data) {
         localStorage.setItem("token", data.createUser);
-        if (session.user.refetch) {
-          session.user.refetch();
-        }
+        getUser();
       }
     }
-  }, [loading, error, data, session.user]);
+  }, [loading, error, data, getUser]);
+
+  useEffect(() => {
+    if (!uLoading) {
+      if (uError) {
+        setMessage(uError.message);
+      } else if (uData) {
+        userVar({
+          loading: false,
+          data: uData.session ?? null,
+        });
+      }
+    }
+  }, [uLoading, uError, uData]);
 
   useEffect(() => {
     if (session.user.data) {
